@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 project(TinyTop)
 
 find_package(Curses REQUIRED)
-include_directories(${CURSES_INCLUDE_DIR} include)
+include_directories(${CURSES_INCLUDE_DIRS} include)
 
 file(GLOB project_srcs src/*.cpp)
 
