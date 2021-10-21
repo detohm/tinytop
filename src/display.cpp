@@ -7,6 +7,9 @@
 #include <thread>
 
 #include "system.h"
+
+const int processWindowRow = 10;
+
 // Constructor
 Display::Display(System& sys) : system_(sys) {}
 
@@ -17,7 +20,7 @@ void Display::Render() {
 
   int xMax = getmaxx(stdscr);
   sysWindow_ = newwin(9, xMax, 0, 0);
-  processWindow_ = newwin(10, xMax, getmaxy(sysWindow_), 0);
+  processWindow_ = newwin(processWindowRow + 1, xMax, getmaxy(sysWindow_), 0);
 
   while (true) {
     box(sysWindow_, 0, 0);
@@ -64,6 +67,21 @@ void Display::renderProcessWindow() {
   mvwprintw(processWindow_, row, col[3], "Mem[MB]");
   mvwprintw(processWindow_, row, col[4], "Time");
   mvwprintw(processWindow_, row, col[5], "CMD");
+
+  auto processes = system_.Processes();
+
+  int rows = (processes.size() > processWindowRow) ? processWindowRow
+                                                   : processes.size();
+  for (int i = 0; i < rows; i++) {
+    row++;
+    mvwprintw(processWindow_, row, col[0],
+              std::to_string(processes[i].PId()).c_str());
+    mvwprintw(processWindow_, row, col[1], "");
+    mvwprintw(processWindow_, row, col[2], "");
+    mvwprintw(processWindow_, row, col[3], "");
+    mvwprintw(processWindow_, row, col[4], "");
+    mvwprintw(processWindow_, row, col[5], "");
+  }
 
   wrefresh(processWindow_);
 }

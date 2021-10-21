@@ -4,12 +4,14 @@
 #include <string>
 class Process {
  public:
-  int Pid;
-  int Uid;
-  std::string User;
-  double CpuUsage;
-  double MemUsage;
-  int Processor;
+  Process(int id);
+  int PId();
+  int UId();
+  double CpuUsage();
+  double MemUsage();
+
+ private:
+  int pId_;
 };
 
 #endif

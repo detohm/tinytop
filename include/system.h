@@ -2,9 +2,10 @@
 #define SYSTEM_H
 
 #include <string>
+#include <vector>
 
 #include "os.h"
-
+#include "process.h"
 class System {
  public:
   System(OperatingSystem& os);
@@ -15,9 +16,11 @@ class System {
   long UpTime();
   int TotalProcesses();
   int RunningProcess();
+  std::vector<Process>& Processes();
 
  private:
   OperatingSystem& os_;
+  std::vector<Process> processes_ = {};
 };
 
 #endif

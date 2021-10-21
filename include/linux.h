@@ -8,12 +8,12 @@
 
 class LinuxOS : public OperatingSystem {
  public:
-  std::vector<Process> ProcessList();
   double MemUtilization();
   double CpuUtilization();
   long UpTime();
   int TotalProcesses();
   int RunningProcess();
+  std::vector<int> ProcessIds();
 };
 
 #endif

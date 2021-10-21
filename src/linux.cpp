@@ -1,16 +1,12 @@
 #include "linux.h"
 
+#include <dirent.h>
+
+#include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <string>
-
-#include "process.h"
-
-std::vector<Process> LinuxOS::ProcessList() {
-  // TODO - implement this
-  std::vector<Process> v;
-  return v;
-}
+#include <vector>
 
 double LinuxOS::CpuUtilization() {
   return 0.0;  // TODO - implement
@@ -77,4 +73,22 @@ int LinuxOS::RunningProcess() {
     }
   }
   return 0;
+}
+
+std::vector<int> LinuxOS::ProcessIds() {
+  std::vector<int> pids;
+  DIR* directory = opendir("/proc/");
+  struct dirent* file;
+  while ((file = readdir(directory)) != nullptr) {
+    // Is this a directory?
+    if (file->d_type == DT_DIR) {
+      // Is every character of the name a digit?
+      std::string filename(file->d_name);
+      if (std::all_of(filename.begin(), filename.end(), isdigit)) {
+        pids.emplace_back(stoi(filename));
+      }
+    }
+  }
+  closedir(directory);
+  return pids;
 }

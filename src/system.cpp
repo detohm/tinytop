@@ -17,3 +17,14 @@ double System::MemUtilization() { return os_.MemUtilization(); }
 long System::UpTime() { return os_.UpTime(); }
 int System::TotalProcesses() { return os_.TotalProcesses(); }
 int System::RunningProcess() { return os_.RunningProcess(); }
+
+std::vector<Process>& System::Processes() {
+  processes_.clear();
+  std::vector<int> pids = os_.ProcessIds();
+  for (int id : pids) {
+    Process p(id);
+    processes_.emplace_back(p);
+  }
+
+  return processes_;
+}
