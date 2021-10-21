@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 
+#include "format.h"
 #include "system.h"
 
 const int processWindowRow = 10;
@@ -25,11 +26,9 @@ void Display::Render() {
   while (true) {
     box(sysWindow_, 0, 0);
     renderSystemWindow();
-    wrefresh(sysWindow_);
 
     box(processWindow_, 0, 0);
     renderProcessWindow();
-    wrefresh(processWindow_);
 
     refresh();
     std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -76,11 +75,15 @@ void Display::renderProcessWindow() {
     row++;
     mvwprintw(processWindow_, row, col[0],
               std::to_string(processes[i].PId()).c_str());
-    mvwprintw(processWindow_, row, col[1], "");
-    mvwprintw(processWindow_, row, col[2], "");
-    mvwprintw(processWindow_, row, col[3], "");
-    mvwprintw(processWindow_, row, col[4], "");
-    mvwprintw(processWindow_, row, col[5], "");
+    mvwprintw(processWindow_, row, col[1],
+              (std::to_string(processes[i].UId())).c_str());
+    mvwprintw(processWindow_, row, col[2],
+              std::to_string(processes[i].CpuUsage()).c_str());
+    mvwprintw(processWindow_, row, col[3],
+              std::to_string(processes[i].MemUsage()).c_str());
+    mvwprintw(processWindow_, row, col[4],
+              Format::ElapsedTime(processes[i].UpTime()).c_str());
+    mvwprintw(processWindow_, row, col[5], processes[i].Command().c_str());
   }
 
   wrefresh(processWindow_);

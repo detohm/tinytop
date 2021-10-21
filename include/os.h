@@ -11,6 +11,12 @@ class OperatingSystem {
   virtual int TotalProcesses() = 0;
   virtual int RunningProcess() = 0;
   virtual std::vector<int> ProcessIds() = 0;
+
+  virtual int UId(int pId) = 0;
+  virtual long UpTime(int pId) = 0;
+  virtual double CpuUsage(int pId) = 0;
+  virtual double MemUsage(int pId) = 0;
+  virtual std::string Command(int pId) = 0;
 };
 
 #endif

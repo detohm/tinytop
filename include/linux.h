@@ -14,6 +14,12 @@ class LinuxOS : public OperatingSystem {
   int TotalProcesses();
   int RunningProcess();
   std::vector<int> ProcessIds();
+
+  int UId(int pId);
+  double CpuUsage(int pId);
+  double MemUsage(int pId);
+  long UpTime(int pId);
+  std::string Command(int pId);
 };
 
 #endif

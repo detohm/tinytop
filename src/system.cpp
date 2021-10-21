@@ -22,7 +22,7 @@ std::vector<Process>& System::Processes() {
   processes_.clear();
   std::vector<int> pids = os_.ProcessIds();
   for (int id : pids) {
-    Process p(id);
+    Process p(os_, id);
     processes_.emplace_back(p);
   }
 
