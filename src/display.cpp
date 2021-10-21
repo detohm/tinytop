@@ -3,6 +3,7 @@
 #include <curses.h>
 
 #include <chrono>
+#include <string>
 #include <thread>
 
 #include "system.h"
@@ -36,12 +37,19 @@ void Display::Render() {
 
 void Display::renderSystemWindow() {
   int row = 0;
-  mvwprintw(sysWindow_, ++row, 2, ("OS: " + system_.OperatingSystem()).c_str());
+  mvwprintw(sysWindow_, ++row, 2, ("OS: " + system_.OSName()).c_str());
   mvwprintw(sysWindow_, ++row, 2, "CPU: ");
-  mvwprintw(sysWindow_, ++row, 2, "Mem: ");
-  mvwprintw(sysWindow_, ++row, 2, "Process[total]: ");
-  mvwprintw(sysWindow_, ++row, 2, "Process[running]: ");
-  mvwprintw(sysWindow_, ++row, 2, "UpTime: ");
+  mvwprintw(
+      sysWindow_, ++row, 2,
+      ("Mem: " + std::to_string(system_.MemUtilization() * 100.0)).c_str());
+  mvwprintw(
+      sysWindow_, ++row, 2,
+      ("Process[total]: " + std::to_string(system_.TotalProcesses())).c_str());
+  mvwprintw(sysWindow_, ++row, 2,
+            ("Process[running]: " + std::to_string(system_.RunningProcess()))
+                .c_str());
+  mvwprintw(sysWindow_, ++row, 2,
+            ("UpTime: " + std::to_string(system_.UpTime())).c_str());
 
   wrefresh(sysWindow_);
 }

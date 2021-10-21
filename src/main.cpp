@@ -9,15 +9,11 @@
 #include "system.h"
 
 int main() {
-  System sys;
+  LinuxOS linuxOs;      // TODO - support multiple os
+  System sys(linuxOs);  // Polymorphism of os
   Display display(sys);
-  display.Render();
 
-  // LinuxHelper linux;
-  // std::vector<Process> ps = linux.ProcessList();
-  // for (auto a : ps) {
-  //   std::cout << a.Pid << std::endl;
-  // }
+  display.Render();
 
   return 0;
 }

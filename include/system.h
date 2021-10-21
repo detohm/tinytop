@@ -3,15 +3,21 @@
 
 #include <string>
 
+#include "os.h"
+
 class System {
  public:
+  System(OperatingSystem& os);
+
+  std::string OSName();
   double MemUtilization();
   double CpuUtilization();
   long UpTime();
   int TotalProcesses();
   int RunningProcess();
-  std::string Kernel();
-  std::string OperatingSystem();
+
+ private:
+  OperatingSystem& os_;
 };
 
 #endif

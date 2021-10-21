@@ -1,13 +1,19 @@
-#ifndef LINUXHELPER_H
-#define LINUXHELPER_H
+#ifndef LINUX_OS_H
+#define LINUX_OS_H
 
 #include <vector>
 
+#include "os.h"
 #include "process.h"
 
-class LinuxHelper {
+class LinuxOS : public OperatingSystem {
  public:
   std::vector<Process> ProcessList();
+  double MemUtilization();
+  double CpuUtilization();
+  long UpTime();
+  int TotalProcesses();
+  int RunningProcess();
 };
 
 #endif

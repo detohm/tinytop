@@ -1,0 +1,10 @@
+FROM tinytop-linux-base:latest
+
+WORKDIR /src
+COPY . ./
+RUN rm -rf build
+RUN mkdir build
+WORKDIR /src/build
+RUN cmake .. && make
+
+CMD ["./TinyTop"]
