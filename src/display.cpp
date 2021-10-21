@@ -51,7 +51,7 @@ void Display::renderSystemWindow() {
             ("Process[running]: " + std::to_string(system_.RunningProcess()))
                 .c_str());
   mvwprintw(sysWindow_, ++row, 2,
-            ("UpTime: " + std::to_string(system_.UpTime())).c_str());
+            ("UpTime: " + Format::ElapsedTime(system_.UpTime())).c_str());
 
   wrefresh(sysWindow_);
 }

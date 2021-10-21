@@ -40,7 +40,20 @@ double LinuxOS::MemUtilization() {
   return (memTotal - memFree) / memTotal;
 }
 
-long LinuxOS::UpTime() { return 0; }
+long LinuxOS::UpTime() {
+  std::string value;
+  std::string line;
+  std::ifstream filestream("/proc/uptime");
+  if (filestream.is_open()) {
+    std::getline(filestream, line);
+    std::istringstream linestream(line);
+    linestream >> value;
+
+    return std::stol(value);
+  }
+  return 0;
+}
+
 int LinuxOS::TotalProcesses() {
   std::string key;
   std::string value;

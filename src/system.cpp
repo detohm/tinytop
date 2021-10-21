@@ -2,6 +2,7 @@
 
 #include <sys/utsname.h>
 
+#include <algorithm>
 #include <string>
 
 System::System(OperatingSystem& os) : os_(os){};
@@ -22,9 +23,11 @@ std::vector<Process>& System::Processes() {
   processes_.clear();
   std::vector<int> pids = os_.ProcessIds();
   for (int id : pids) {
-    Process p(os_, id);
+    Process p(&os_, id);
     processes_.emplace_back(p);
   }
+
+  std::sort(processes_.begin(), processes_.end());
 
   return processes_;
 }
