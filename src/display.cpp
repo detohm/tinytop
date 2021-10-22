@@ -80,7 +80,7 @@ void Display::renderProcessWindow() {
     mvwprintw(processWindow_, row, col[1],
               (std::to_string(processes[i].UId())).c_str());
     mvwprintw(processWindow_, row, col[2],
-              std::to_string(processes[i].CpuUsage()).c_str());
+              std::to_string(processes[i].CpuUsage() * 100).c_str());
     mvwprintw(processWindow_, row, col[3],
               std::to_string(processes[i].MemUsage()).c_str());
     mvwprintw(processWindow_, row, col[4],

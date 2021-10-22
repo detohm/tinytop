@@ -14,7 +14,7 @@ class Process {
 
   int PId();
   int UId();
-  double CpuUsage();
+  double CpuUsage() const;
   double MemUsage() const;
   std::string Command();
   long UpTime();

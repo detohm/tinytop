@@ -25,6 +25,7 @@ class LinuxOS : public OperatingSystem {
   long activeJiffies_;
   long totalJiffies_;
   std::vector<std::string> parseCpuStat();
+  long activeJiffies(int pId);
 };
 
 #endif
