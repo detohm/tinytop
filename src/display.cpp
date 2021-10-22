@@ -20,18 +20,18 @@ void Display::Render() {
   cbreak();
 
   int xMax = getmaxx(stdscr);
-  sysWindow_ = newwin(9, xMax, 0, 0);
-  processWindow_ = newwin(processWindowRow + 1, xMax, getmaxy(sysWindow_), 0);
+  sysWindow_ = newwin(9, xMax - 1, 0, 0);
+  processWindow_ =
+      newwin(processWindowRow + 3, xMax - 1, getmaxy(sysWindow_), 0);
 
   while (true) {
     box(sysWindow_, 0, 0);
-    renderSystemWindow();
-
     box(processWindow_, 0, 0);
+    renderSystemWindow();
     renderProcessWindow();
-
     refresh();
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
 
   endwin();
@@ -40,7 +40,9 @@ void Display::Render() {
 void Display::renderSystemWindow() {
   int row = 0;
   mvwprintw(sysWindow_, ++row, 2, ("OS: " + system_.OSName()).c_str());
-  mvwprintw(sysWindow_, ++row, 2, "CPU: ");
+  mvwprintw(
+      sysWindow_, ++row, 2,
+      ("CPU: " + std::to_string(system_.CpuUtilization() * 100.0)).c_str());
   mvwprintw(
       sysWindow_, ++row, 2,
       ("Mem: " + std::to_string(system_.MemUtilization() * 100.0)).c_str());

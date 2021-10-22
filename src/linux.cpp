@@ -9,8 +9,40 @@
 #include <string>
 #include <vector>
 
+std::vector<std::string> LinuxOS::parseCpuStat() {
+  std::string line;
+  std::string value;
+  std::vector<std::string> strs;
+  std::ifstream filestream("/proc/stat");
+  if (filestream.is_open()) {
+    std::getline(filestream, line);
+    std::istringstream linestream(line);
+    linestream >> value;  // cpu first column
+
+    while (linestream >> value) {
+      strs.push_back(value);
+    }
+  }
+  return strs;
+}
+
 double LinuxOS::CpuUtilization() {
-  return 0.0;  // TODO - implement
+  std::vector<std::string> stats = parseCpuStat();
+  long curActiveJiffies = 0;
+  long curTotalJiffies = 0;
+  for (unsigned int i = 0; i < stats.size(); i++) {
+    curTotalJiffies += std::stol(stats[i]);
+    if (i != 3 && i != 4) {
+      curActiveJiffies += std::stol(stats[i]);
+    }
+  }
+
+  long deltaActiveJiffies = curActiveJiffies - activeJiffies_;
+  long deltaTotalJiffies = curTotalJiffies - totalJiffies_;
+  activeJiffies_ = curActiveJiffies;
+  totalJiffies_ = curTotalJiffies;
+
+  return ((double)deltaActiveJiffies) / deltaTotalJiffies;
 }
 
 double LinuxOS::MemUtilization() {
@@ -136,7 +168,8 @@ double LinuxOS::MemUsage(int pId) {
     while (getline(filestream, line)) {
       std::istringstream linestream(line);
       linestream >> key >> value;
-      if (key == "VmSize:") {
+      // if (key == "VmSize:") {
+      if (key == "VmRSS:") {
         return stod(value) / 1024.0;
       }
     }

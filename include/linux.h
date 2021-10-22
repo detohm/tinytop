@@ -20,6 +20,11 @@ class LinuxOS : public OperatingSystem {
   double MemUsage(int pId);
   long UpTime(int pId);
   std::string Command(int pId);
+
+ private:
+  long activeJiffies_;
+  long totalJiffies_;
+  std::vector<std::string> parseCpuStat();
 };
 
 #endif
